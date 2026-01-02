@@ -1,0 +1,8 @@
+{
+  "name": "NovaHealth - Precision Healthcare",
+  "description": "A premium, motion-rich healthcare experience featuring 3D SVG animations, kinetic typography, and an AI-powered symptom assistant.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

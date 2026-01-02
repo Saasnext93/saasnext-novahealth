@@ -2,9 +2,19 @@
 import { GoogleGenAI } from "@google/genai";
 
 // Initialize the GoogleGenAI client with the API key from environment variables as required.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.API_KEY;
+
+if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') {
+  console.warn('⚠️ Gemini API key is not set. Please add VITE_GEMINI_API_KEY to your .env.local file.');
+}
+
+const ai = apiKey && apiKey !== 'PLACEHOLDER_API_KEY' ? new GoogleGenAI({ apiKey }) : null;
 
 export const getHealthAssistantResponse = async (userMessage: string) => {
+  if (!ai) {
+    return "⚠️ AI Assistant is not configured. Please set up your Gemini API key in the .env.local file (VITE_GEMINI_API_KEY=your_key_here) and restart the server.";
+  }
+
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
